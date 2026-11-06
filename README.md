@@ -6,6 +6,16 @@ An open-source Uyghur starter lexicon, HTTP API, and JavaScript SDK by [UyghurCo
 
 لۇغەت — ئۇيغۇرچە سۆزلەرنى ئىزدەش، تەكلىپ سۆزلەرنى ئېلىش ۋە كۈنلۈك سۆزنى كۆرسىتىش ئۈچۈن ياسالغان ئوچۇق مەنبەلىك قورال. بۇ دەسلەپكى سانلىق مەلۇمات مۇستەقىل تىل تەكشۈرۈشىدىن ئۆتمىگەن؛ تۈزىتىش ۋە تەكشۈرۈپ بېرىشنى قارشى ئالىمىز.
 
+## Public API
+
+Verified live endpoint: **https://uyghurcommunity-lughet-api.vercel.app**
+
+```bash
+curl "https://uyghurcommunity-lughet-api.vercel.app/v1/search?q=salam"
+```
+
+The service currently serves 33 original draft entries, without authentication. The same SDK works offline using the bundled dataset.
+
 ## What is included
 
 - Search by Uyghur word, Latin lookup hint, or English definition.
@@ -124,7 +134,7 @@ Run `HOST=0.0.0.0 PORT=8787 npm start` on a host supporting persistent Node HTTP
 
 `api/index.js` exports Web Request/Response handlers. `vercel.json` rewrites `/v1/*` and `/health` to the stateless function. Import this as a framework-free Node project. The function bundles its dataset and writes no runtime files. Verify `/health`, then enter your API base URL in the optional playground connection panel.
 
-A Vercel configuration is supplied; a live Vercel endpoint is not implied by this README.
+The public deployment above uses this adapter. A fork still needs its own deployment; its GitHub Pages demo continues to work offline.
 
 ## Validation and release
 

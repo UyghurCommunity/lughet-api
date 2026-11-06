@@ -11,8 +11,12 @@
   },
   "servers": [
     {
+      "url": "https://uyghurcommunity-lughet-api.vercel.app",
+      "description": "Public draft API"
+    },
+    {
       "url": "http://localhost:8787",
-      "description": "Local server; replace with your actual HTTP API deployment."
+      "description": "Local development"
     }
   ],
   "paths": {
