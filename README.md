@@ -150,3 +150,7 @@ An authorized npm scope owner can inspect `npm pack`, then use `npm publish --ac
 ## Contributing
 
 Open an issue or pull request with the entry ID, proposed correction, and reasoning. Native-speaker review is especially useful. External sources need clear attribution and reuse permission; keep original entries distinguishable from imported collections. Keep `audioUrl: null` until an actual licensed recording is supplied.
+
+## Typography
+
+Uyghur demo text and dynamic word entries use the externally linked **ALKATIP Basma** font, with WOFF2, WOFF, and TTF fallbacks and `font-display: swap`. English and code keep explicit system and monospace font stacks. The `.alkatip-basma` helper provides RTL direction, bidi embedding, and line-height 2.2. No font binary is bundled; system fallbacks remain available if the external host cannot be reached.

@@ -13,7 +13,7 @@ function renderEntries(data) {
   for (const entry of data) {
     const article = node('article', undefined, 'entry');
     const top = node('div', undefined, 'entry-top');
-    const wordRow = node('div'); const word = node('bdi', entry.word, 'entry-word'); word.lang = 'ug'; word.dir = 'rtl'; wordRow.append(word, node('span', entry.latin, 'entry-latin')); top.append(wordRow);
+    const wordRow = node('div'); const word = node('bdi', entry.word, 'entry-word alkatip-basma'); word.lang = 'ug'; word.dir = 'rtl'; wordRow.append(word, node('span', entry.latin, 'entry-latin')); top.append(wordRow);
     const controls = node('div'); if (entry.reviewStatus) controls.append(node('span', entry.reviewStatus, 'draft'));
     const copyButton = node('button', '⧉', 'entry-copy'); copyButton.type = 'button'; copyButton.setAttribute('aria-label', 'Copy ' + entry.word); copyButton.addEventListener('click', () => copy(entry.word)); controls.append(copyButton); top.append(controls); article.append(top);
     if (entry.partOfSpeech) article.append(node('p', entry.partOfSpeech + ' · ' + entry.id, 'entry-grammar'));
@@ -22,7 +22,12 @@ function renderEntries(data) {
     $('results').append(article);
   }
 }
+function updateQueryLanguage() {
+  const isUyghur = /[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]/u.test($('query').value);
+  $('query').lang = isUyghur ? 'ug' : 'en';
+}
 async function run() {
+  updateQueryLanguage();
   if (!adapter) return;
   const current = ++sequence;
   const operation = $('operation').value, query = $('query').value;
