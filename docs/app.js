@@ -1,5 +1,7 @@
 import { createLocalLughet, createLughetClient } from '../src/index.js';
+import { createWordGarden } from './motion.js';
 const $ = (id) => document.getElementById(id);
+const wordGarden = createWordGarden();
 let local, adapter, responseBody, noticeTimer, debounce, sequence = 0;
 const node = (tag, text, className) => { const el = document.createElement(tag); if (text !== undefined) el.textContent = text; if (className) el.className = className; return el; };
 function announce(message) { $('notice').textContent = message; $('notice').classList.add('visible'); clearTimeout(noticeTimer); noticeTimer = setTimeout(() => $('notice').classList.remove('visible'), 2500); }
@@ -41,8 +43,10 @@ async function run() {
     const rows = Array.isArray(result.data) ? result.data : [result.data];
     $('result-count').textContent = operation === 'daily' ? result.meta.date + ' UTC' : rows.length + (result.meta.total > rows.length ? ' of ' + result.meta.total : '') + ' result' + (rows.length === 1 ? '' : 's');
     renderEntries(rows);
+    wordGarden.updateMatches(rows);
   } catch (error) {
     if (current !== sequence) return;
+    wordGarden.updateMatches([]);
     responseBody = { error: { code: error.code || 'REQUEST_FAILED', message: error.message } };
     $('response-json').textContent = JSON.stringify(responseBody, null, 2); $('error').textContent = error.message; $('error').hidden = false; $('result-count').textContent = 'Request failed'; $('results').replaceChildren();
   } finally { if (current === sequence) $('search-button').disabled = false; }

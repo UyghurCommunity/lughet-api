@@ -154,3 +154,9 @@ Open an issue or pull request with the entry ID, proposed correction, and reason
 ## Typography
 
 Uyghur demo text and dynamic word entries use the externally linked **ALKATIP Basma** font, with WOFF2, WOFF, and TTF fallbacks and `font-display: swap`. English and code keep explicit system and monospace font stacks. The `.alkatip-basma` helper provides RTL direction, bidi embedding, and line-height 2.2. No font binary is bundled; system fallbacks remain available if the external host cannot be reached.
+
+## Website motion controls
+
+The documentation hero contains an original **Word Garden**: a dimensional book, turning paper, drifting Uyghur word cards, and flowing SVG connections. The five visible words come from the starter vocabulary; the connections are illustrative, not linguistic claims. Searches highlight matching sample IDs without changing your query or response text. Select a word card to pin its highlight, or move a mouse over the scene for a small perspective shift.
+
+The visible **Pause motion / Play motion** control stops the hero and entrance effects. Reduced-motion preferences show a still composition from the first paint. CSS animations default to paused until their controller initializes, and stop while the page is hidden or the hero is offscreen. Pointer work uses only event-driven animation frames, with no continuous JavaScript loop. The API and SDK do not depend on these website effects.
