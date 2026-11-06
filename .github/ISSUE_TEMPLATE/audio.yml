@@ -1,0 +1,56 @@
+name: "تەلەپپۇز / Licensed pronunciation audio"
+description: Propose an existing recording with explicit license, credit, and consent.
+title: "[audio] "
+body:
+  - type: markdown
+    attributes:
+      value: "No recordings are invented or uploaded by this workflow. Submit an existing recording you are authorized to share. Maintainers must verify language, provenance, recording rights, and speaker consent before any release."
+  - type: input
+    id: entry-id
+    attributes:
+      label: Existing entry ID and Uyghur word
+    validations:
+      required: true
+  - type: input
+    id: audio-url
+    attributes:
+      label: Public HTTPS recording URL
+      description: Link directly to an existing recording. Do not include secret access tokens or private links.
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: Exact recording reuse license
+      description: For example CC0-1.0, CC-BY-4.0, or specific documented permission. State conditions clearly.
+    validations:
+      required: true
+  - type: input
+    id: credit
+    attributes:
+      label: Recorder/speaker credit as authorized for public display
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Source, rights evidence, and pronunciation context
+      description: Explain recording origin and how recorder/speaker consent can be verified. State relevant language or regional context with evidence. Keep private personal information out of the public issue.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal-json
+    attributes:
+      label: Optional validated proposal JSON
+      render: json
+  - type: checkboxes
+    id: acknowledgments
+    attributes:
+      label: Recording and review acknowledgments
+      options:
+        - label: I can establish that the recorder and speaker consent to public distribution, the stated license, and the displayed credit.
+          required: true
+        - label: I identified the recording source and license honestly and hold the necessary permissions.
+          required: true
+        - label: A qualified human must verify the pronunciation; submitting this issue does not create an approved recording or update the API.
+          required: true

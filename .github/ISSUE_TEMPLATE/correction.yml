@@ -1,0 +1,50 @@
+name: "تۈزىتىش / Entry correction"
+description: Propose a correction or example for an existing draft entry.
+title: "[correction] "
+body:
+  - type: markdown
+    attributes:
+      value: "A correction is a proposal, not human review or automatic publication. Keep the existing entry distinguishable from your proposed wording."
+  - type: input
+    id: entry-id
+    attributes:
+      label: Existing entry ID
+      description: Use an ID from the current 33-entry draft dataset.
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current wording or issue
+    validations:
+      required: true
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed correction and examples
+      description: Include corrected Uyghur word, Latin lookup hint, part of speech, and English definition as applicable. Optional examples may be Uyghur and/or English.
+    validations:
+      required: true
+  - type: textarea
+    id: reasoning
+    attributes:
+      label: Reasoning and source provenance
+      description: Explain why the correction is needed. Name the source/author, link external sources, state exact reuse license or permission and credit, and explain any regional usage claim.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal-json
+    attributes:
+      label: Optional validated proposal JSON
+      render: json
+  - type: checkboxes
+    id: acknowledgments
+    attributes:
+      label: Contributor acknowledgments
+      options:
+        - label: This is my honest proposal; a qualified human must still verify linguistic accuracy.
+          required: true
+        - label: I have supplied provenance, reuse rights, and required attribution; I have not copied restricted material.
+          required: true
+        - label: I understand existing entries remain draft until a real human review and separate publication decision.
+          required: true

@@ -359,3 +359,6 @@ input[lang="ug"] { font-family: "ALKATIP Basma", Tahoma, Arial, sans-serif; }
   .button, .endpoint, .data-cards article { transition: none !important; }
 }
 @media print { .word-garden { display: none; } [data-reveal] { opacity: 1 !important; transform: none !important; } }
+
+/* Keep the added contribution link reachable on narrow navigation bars. */
+@media(max-width:650px){.nav:has(.contribution-nav-link){flex-wrap:wrap;padding-block:17px;gap:13px}.nav:has(.contribution-nav-link) nav{flex-wrap:wrap;gap:16px}}

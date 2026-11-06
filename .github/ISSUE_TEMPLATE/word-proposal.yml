@@ -1,0 +1,69 @@
+name: "يېڭى سۆز / New word proposal"
+description: Propose a sourced word for human review; this does not update the API.
+title: "[new] "
+body:
+  - type: markdown
+    attributes:
+      value: "This is a pending proposal. The 33 existing entries remain draft. Use the contribution page to prepare validated JSON, or complete the fields below. Do not paste copyrighted dictionary text without reuse permission."
+  - type: input
+    id: entry-id
+    attributes:
+      label: Entry ID
+      description: Lowercase Latin letters, digits, and hyphens; start with a letter.
+    validations:
+      required: true
+  - type: input
+    id: word
+    attributes:
+      label: ئۇيغۇرچە سۆز / Uyghur word
+    validations:
+      required: true
+  - type: input
+    id: latin
+    attributes:
+      label: Latin lookup hint
+      description: A lookup aid, not a claim of normative transliteration.
+    validations:
+      required: true
+  - type: dropdown
+    id: part-of-speech
+    attributes:
+      label: Part of speech
+      options: [noun, verb, adjective, adverb, pronoun, numeral, interjection, conjunction, preposition, phrase, other]
+    validations:
+      required: true
+  - type: textarea
+    id: definition
+    attributes:
+      label: English definition
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Optional Uyghur and English examples
+      description: Explain any relevant usage context and provide provenance for externally sourced examples.
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Source, license, and credit
+      description: State original authorship or give source title and URL, exact reuse license or permission evidence, and required attribution. Online availability alone is not permission. Do not disclose private correspondence.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal-json
+    attributes:
+      label: Optional validated proposal JSON and notes
+      description: Paste the downloaded JSON or explain your reasoning. If proposing audio, include an HTTPS URL, recording license, recording credit, and speaker/recorder consent.
+      render: json
+  - type: checkboxes
+    id: acknowledgments
+    attributes:
+      label: Contributor acknowledgments
+      options:
+        - label: I prepared this proposal honestly; linguistic review by a qualified human is still needed.
+          required: true
+        - label: I have identified source provenance, reuse rights, and any necessary permissions; I have not copied restricted material.
+          required: true
+        - label: I understand this proposal is pending and will not automatically change the API or create a reviewed entry.
+          required: true

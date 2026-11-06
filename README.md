@@ -24,6 +24,7 @@ The service currently serves 33 original draft entries, without authentication. 
 - Read-only Node HTTP server and stateless Vercel adapter.
 - Static [playground](https://uyghurcommunity.github.io/lughet-api/) using bundled local data.
 - Downloadable [JSON dataset](data/lexicon.json) and [OpenAPI 3.1 document](openapi.json).
+- A browser-local [community contribution desk](https://uyghurcommunity.github.io/lughet-api/docs/contribute.html) for preparing sourced word, correction, example, and licensed pronunciation proposals for human review.
 
 **GitHub Pages serves the static demo, not the HTTP API.** The repository contains npm-ready package source; registry publication is a separate release step for an authorized npm scope owner.
 
@@ -150,6 +151,43 @@ An authorized npm scope owner can inspect `npm pack`, then use `npm publish --ac
 ## Contributing
 
 Open an issue or pull request with the entry ID, proposed correction, and reasoning. Native-speaker review is especially useful. External sources need clear attribution and reuse permission; keep original entries distinguishable from imported collections. Keep `audioUrl: null` until an actual licensed recording is supplied.
+
+## Community proposal workflow
+
+Open [the contribution desk](https://uyghurcommunity.github.io/lughet-api/docs/contribute.html), or `docs/contribute.html` on either the local Node server or a static HTTP server. The root `contribute.html` is a GitHub Pages alias; use the canonical docs/contribute.html path on the local Node server. No backend routes, API behavior, canonical entries, generated dataset, dataset version, or package version are changed by this contribution workflow.
+
+The Uyghur RTL page uses the existing ALKATIP Basma font and shows the current **33 draft entries**, including each entry's real review status and provenance. Search by Uyghur word, Latin hint, English definition, or ID. The reviewed-status filter currently returns no entries, because none has received independent human review. Existing recordings remain absent.
+
+An empty search or suggestion result offers a link to prepare a missing-word proposal. The search term is carried to the canonical contribution page as an editable hint: Arabic-script letters populate the word field, and a Latin-script query populates the Latin lookup hint. Definitions, provenance, licenses, and acknowledgments stay empty and require contributor input. Blank or invalid hints do not create a proposal. Unknown entry IDs also offer this path after a genuine not-found response.
+
+Choose **new word**, **correction/example**, or **audio**. A correction/audio button on an entry copies its existing word, Latin hint, part of speech, definition, and ID into the form; it does not assert that these fields are correct or fill in rights acknowledgments on your behalf. Add your own proposed changes, optional Uyghur/English examples, source kind/title/URL, exact license or permission explanation, and public credit. External sources require an HTTP(S) source URL. An audio contribution requires an existing HTTPS recording, explicit recording license, credit, and affirmative recorder/speaker consent; the page does not record, fetch, upload, or play audio.
+
+Structural validation runs entirely in the browser. The text preview uses `textContent`; user input is never interpreted as HTML. Every exported proposal includes `schemaVersion: 1` and `reviewStatus: "pending"`. Unknown fields, oversized values, malformed IDs, unknown correction/audio IDs, unsafe URL protocols, credential-bearing URLs, missing license details, and unchecked acknowledgments are rejected. This is **not a determination of linguistic accuracy, legal permission, or license compatibility**.
+
+After validation you can:
+
+1. Download a JSON proposal and open a pull request adding it under [`proposals/`](proposals/README.md).
+2. Open a prefilled GitHub Issue, inspect its contents, and press GitHub's submit button yourself. The application only prepares a URL; it never creates an issue or sends a proposal automatically. Long proposals use the JSON path rather than an oversized issue URL.
+3. Use the repository's [new-word](.github/ISSUE_TEMPLATE/word-proposal.yml), [correction](.github/ISSUE_TEMPLATE/correction.yml), or [licensed-audio](.github/ISSUE_TEMPLATE/audio.yml) issue forms directly.
+
+Keep public credits intentional and exclude private correspondence, tokens, and personal information. Browsing the contribution desk does not save drafts to local storage or a server. Drafts live only in this page and any form state your browser retains; download JSON before leaving if you need a portable copy. Opening a prepared GitHub Issue transfers its text to GitHub only when you follow that link.
+
+### Maintainer review
+
+Proposals are intake records, separate from the published API. A maintainer must check the proposed spelling, meaning, part of speech, examples, and any usage or regional claims with a qualified human reviewer; trace the source; establish reuse rights and attribution; and verify recording ownership and speaker/recorder consent where applicable. The original dataset is CC0-1.0; a proposal citing CC-BY, CC-BY-SA, or separate permission does **not** establish that its content may be incorporated into a CC0 release. Incompatible or unclear rights must be resolved or the material excluded.
+
+Do not mark a proposal or entry as reviewed merely because automated checks pass. Only actual human review may justify a reviewed status. Accepting a proposal file or issue does not update entries. Any future accepted data change requires a separate reviewed canonical-data edit, regeneration, tests, and a release decision. This implementation leaves all **33 entries `draft` with `audioUrl: null`** and adds no invented contributions, recordings, or human reviews.
+
+### Proposal checks
+
+```sh
+npm run check
+npm run check:proposals
+node scripts/check-proposals.mjs proposals/your-entry-id.json
+npm test
+```
+
+`docs/proposals.js` is a pure validation/serialization module shared by the form and CLI. The CLI validates JSON files inside `proposals/`, checks current entry IDs for corrections/audio, and rejects statuses other than `pending`; it never changes the live dataset. The directory initially contains only its README, so a successful check reports zero proposal files. Tests cover schema/field bounds, source protocols, recording consent/license requirements, safe issue URL encoding/fences, pending status, preview text handling, and CLI success/failure while preserving canonical data. CI runs syntax, proposal validation, the complete existing API/SDK test suite, and the package dry run using official actions pinned to commit SHAs.
 
 ## Typography
 

@@ -9,9 +9,19 @@ async function copy(value) {
   try { await navigator.clipboard.writeText(value); announce('Copied.'); }
   catch { const field = node('textarea'); field.value = value; field.style.cssText = 'position:fixed;opacity:0'; document.body.append(field); field.select(); const ok = document.execCommand('copy'); field.remove(); announce(ok ? 'Copied.' : 'Select the text and copy it manually.'); }
 }
-function renderEntries(data) {
+function renderEntries(data, query = '', operation = 'search') {
   $('results').replaceChildren();
-  if (!data.length) { $('results').append(node('p', 'No matching words in this small starter dataset. Try another term or contribute an entry.', 'empty')); return; }
+  if (!data.length) {
+    const empty = node('div', undefined, 'empty');
+    empty.append(node('p', 'No matching words in this small starter dataset. Try another term or prepare a sourced proposal for human review.'));
+    if (query.trim() && ['search', 'suggest', 'word'].includes(operation)) {
+      const url = new URL('./contribute.html', import.meta.url);
+      url.searchParams.set('q', query.trim());
+      const link = node('a', 'Propose a missing word ↗', 'inline-link'); link.href = url.href;
+      empty.append(link);
+    }
+    $('results').append(empty); return;
+  }
   for (const entry of data) {
     const article = node('article', undefined, 'entry');
     const top = node('div', undefined, 'entry-top');
@@ -42,13 +52,14 @@ async function run() {
     responseBody = result; $('response-json').textContent = JSON.stringify(result, null, 2);
     const rows = Array.isArray(result.data) ? result.data : [result.data];
     $('result-count').textContent = operation === 'daily' ? result.meta.date + ' UTC' : rows.length + (result.meta.total > rows.length ? ' of ' + result.meta.total : '') + ' result' + (rows.length === 1 ? '' : 's');
-    renderEntries(rows);
+    renderEntries(rows, query, operation);
     wordGarden.updateMatches(rows);
   } catch (error) {
     if (current !== sequence) return;
     wordGarden.updateMatches([]);
     responseBody = { error: { code: error.code || 'REQUEST_FAILED', message: error.message } };
     $('response-json').textContent = JSON.stringify(responseBody, null, 2); $('error').textContent = error.message; $('error').hidden = false; $('result-count').textContent = 'Request failed'; $('results').replaceChildren();
+    if (operation === 'word' && error.code === 'NOT_FOUND') renderEntries([], query, operation);
   } finally { if (current === sequence) $('search-button').disabled = false; }
 }
 function operationChanged() {
